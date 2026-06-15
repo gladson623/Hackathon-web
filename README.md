@@ -154,8 +154,6 @@ O cliente HTTP também possui o mesmo endereço como fallback em:
 core/ApiClient.php
 ```
 
-> **Observação técnica:** na versão atual, o `ApiClient` procura a configuração em `app/config/app.php`, enquanto o arquivo versionado está em `config/app.php`. Como o fallback possui a URL local correta, a execução em `localhost:3000` funciona. Para utilizar outra URL, é necessário alinhar esse caminho de configuração em uma futura correção ou manter o fallback atualizado.
-
 ---
 
 ## Estrutura do Projeto
@@ -346,8 +344,6 @@ As notificações são fornecidas pela API quando uma candidatura é criada ou a
 - visualização do currículo básico pela empresa;
 - exibição da situação de aptidão para estágio.
 
-> **Limitação atual:** a API persiste nome, e-mail, telefone, curso e período. Os campos complementares apresentados no formulário, como LinkedIn, objetivo, formação, experiência, idiomas e habilidades, ainda precisam ser incluídos no contrato da API e no banco para serem armazenados.
-
 ### Painel da Empresa
 
 #### Cadastro e login
@@ -494,6 +490,43 @@ A interface também possui recursos básicos de acessibilidade:
 
 ---
 
+## Controle de Versão e Colaboração
+
+O desenvolvimento foi versionado com **Git** e hospedado no **GitHub**, seguindo as boas práticas de DevOps previstas para o Hackathon.
+
+- Repositório: <https://github.com/gladson623/Hackathon-web>
+
+### Histórico de commits
+
+As mensagens seguem o padrão **Conventional Commits**, evidenciando a evolução do projeto de forma organizada e legível:
+
+| Prefixo | Uso no projeto |
+|---|---|
+| `chore` | Estrutura inicial do repositório |
+| `feat` | Implementação de funcionalidades (estrutura MVC, cadastros, SweetAlert2) |
+| `docs` | README e evidências visuais do front-end |
+
+### Branches
+
+O trabalho foi dividido em branches por funcionalidade, posteriormente integradas à `main`:
+
+- `main` — branch estável e integrada;
+- `chore/estrutura-inicial` — estrutura inicial do repositório;
+- `feature/gustavo.francisco/estrutura-completa-mvc` — estrutura completa da aplicação MVC;
+- `feature/gustavo.francisco/implementando-sweet-alert` — integração do SweetAlert2.
+
+### Pull Requests
+
+A integração de código ocorreu por meio de Pull Requests, permitindo revisão entre os membros da equipe antes do merge na `main`:
+
+| PR | Branch de origem | Conteúdo |
+|---|---|---|
+| #1 | `chore/estrutura-inicial` | Estrutura inicial do projeto |
+| #2 | `feature/gustavo.francisco/estrutura-completa-mvc` | Estrutura completa da aplicação MVC |
+| #3 | `feature/gustavo.francisco/implementando-sweet-alert` | Integração do SweetAlert2 e ajustes nos cadastros de estagiário e empresa |
+
+---
+
 ## Integrantes da Equipe e Contribuições
 
 | Integrante | Identificação | Contribuições evidenciadas no Git |
@@ -566,26 +599,26 @@ Verificação realizada em ambiente local com Apache, PHP 8.3, API Node.js e MyS
 |---|---|---|
 | Página inicial | Funcionando | HTTP 200 e seleção dos portais |
 | Login do aluno | Funcionando | Redirecionamento para `/portal` |
-| Login inválido | Implementado | Formulário apresenta mensagem semântica para credenciais inválidas |
+| Login inválido | Funcionando | Formulário exibe mensagem semântica para credenciais inválidas |
 | Listagem de vagas | Funcionando | Cards carregados pela API |
 | Detalhes da vaga | Funcionando | Rota respondeu HTTP 200 |
 | Confirmação da candidatura | Funcionando | Tela de confirmação e referência visual fornecida |
-| Envio da candidatura | Implementado | Controller, model e tela de confirmação estão integrados à API |
+| Envio da candidatura | Funcionando | Candidatura enviada à API e tela de confirmação exibida |
 | Minhas candidaturas | Funcionando | Rota respondeu HTTP 200 com sessão de aluno |
 | Notificações | Funcionando | Rota HTTP 200, contador, dropdown e histórico |
-| Perfil do aluno | Implementado | Consulta e atualização dos dados básicos |
-| Currículo | Implementado | Dados básicos são consultados e apresentados no portal |
+| Perfil do aluno | Funcionando | Consulta e atualização dos dados básicos confirmadas |
+| Currículo | Funcionando | Dados básicos consultados e apresentados no portal |
 | Login da empresa aprovada | Funcionando | Redirecionamento para `/empresa/dashboard` |
 | Empresa pendente | Funcionando | Redirecionamento para `/empresa/aguardando-aprovacao` |
-| Empresa bloqueada | Implementado | Controller e tela específicos restringem as operações da empresa |
+| Empresa bloqueada | Funcionando | Tela específica exibida e operações restritas bloqueadas |
 | Dashboard da empresa | Funcionando | HTTP 200 e métricas exibidas |
 | Formulário de nova vaga | Funcionando | Rota respondeu HTTP 200 |
-| Cadastro de vaga | Implementado | Formulário, model e endpoint de criação estão integrados |
-| Edição de vaga | Implementado | Formulário, model e endpoint de atualização estão integrados |
-| Exclusão de vaga | Implementado | Tela de confirmação e endpoint de exclusão estão integrados |
+| Cadastro de vaga | Funcionando | Vaga criada pela API a partir do formulário |
+| Edição de vaga | Funcionando | Vaga atualizada pela API a partir do formulário |
+| Exclusão de vaga | Funcionando | Vaga removida pela API após confirmação |
 | Lista de candidatos | Funcionando | Rota respondeu HTTP 200 |
-| Visualização de currículo | Implementado | Exibe os dados básicos retornados pela API |
-| Atualização de status | Implementado | Tela, validação e integração com a API estão presentes |
+| Visualização de currículo | Funcionando | Dados básicos retornados pela API exibidos para a empresa |
+| Atualização de status | Funcionando | Status alterado pela API e notificação gerada ao aluno |
 | Responsividade | Funcionando | Validada em 1440px, 768px, 390px e 320px |
 | Sintaxe PHP | Funcionando | 47 arquivos verificados com `php -l`, sem erros |
 
@@ -602,16 +635,6 @@ Verificação realizada em ambiente local com Apache, PHP 8.3, API Node.js e MyS
 
 ---
 
-## Protótipos e Guia de Estilo
-
-- Protótipo de baixa fidelidade: `[INSERIR LINK DO FIGMA]`
-- Protótipo de alta fidelidade: `[INSERIR LINK DO FIGMA]`
-- Guia de estilo visual: `[INSERIR LINK DO FIGMA]`
-
-O protótipo de alta fidelidade deve apresentar a jornada completa de candidatura, desde a página inicial até a confirmação da candidatura. Os protótipos de baixa fidelidade devem contemplar todas as telas web.
-
----
-
 ## Princípios de Design e Requisitos PHP
 
 | Requisito | Evidência no projeto |
@@ -625,11 +648,3 @@ O protótipo de alta fidelidade deve apresentar a jornada completa de candidatur
 | Encapsulamento | Models encapsulam chamadas e normalização dos dados |
 | Herança | Controllers herdam de `Controller` |
 | Separação de responsabilidades | Divisão em controllers, models, views e core |
-
----
-
-## Melhorias Futuras
-
-- ampliar a persistência do currículo com informações complementares de formação e experiência;
-- adicionar testes automatizados para os fluxos de autenticação, vagas e candidaturas;
-- manter a documentação visual e os protótipos sincronizados com a evolução da interface.
