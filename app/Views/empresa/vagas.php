@@ -15,10 +15,6 @@
             <a href="<?= url('/empresa/vaga/nova') ?>" class="btn-primary">Nova Vaga</a>
         </div>
 
-        <?php if ($msgQuery): ?>
-            <p class="alert-success"><?= e($msgQuery) ?></p>
-        <?php endif; ?>
-
         <div class="table-scroll vagas-table-scroll" role="region" aria-label="Lista de vagas" tabindex="0">
         <table class="vagas-table">
             <thead>

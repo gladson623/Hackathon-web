@@ -13,10 +13,6 @@ $vagas = $vagas ?? [];
 <?php require APP_PATH . '/Views/layouts/navbar.php'; ?>
 
 <main class="container page-space">
-    <?php if (!empty($_GET['aviso'])): ?>
-        <p class="alert-error" role="alert"><?= e($_GET['aviso']) ?></p>
-    <?php endif; ?>
-
     <?php if ($logado && empty($_SESSION['usuario']['aptoEstagio'])): ?>
         <p class="alert-aviso" role="status">
             <strong>Cadastro em análise.</strong>

@@ -6,10 +6,6 @@
 <?php require APP_PATH . '/Views/layouts/navbar.php'; ?>
 
 <main class="container page-space">
-    <?php if ($msgQuery): ?>
-        <p class="alert-success"><?= e($msgQuery) ?></p>
-    <?php endif; ?>
-
     <section class="dashboard">
         <h1>Painel da Empresa</h1>
         <p>Gerencie vagas publicadas e acompanhe alunos candidatos.</p>

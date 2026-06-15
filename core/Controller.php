@@ -15,6 +15,11 @@ abstract class Controller {
         exit;
     }
 
+    protected function flash(string $message, string $type = 'success'): void {
+        iniciarSessao();
+        $_SESSION['_flash'] = ['message' => $message, 'type' => $type];
+    }
+
     protected function requireLogin(): void {
         iniciarSessao();
         if (!isset($_SESSION['usuario'])) {

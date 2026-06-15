@@ -28,22 +28,19 @@ class EmpresaController extends Controller {
 
         $vagasAbertas = count(array_filter($vagas, fn($v) => ($v['status'] ?? '') === 'aberta'));
         $emAndamento  = count(array_filter($candidatosDaEmpresa, fn($c) => in_array($c['status'] ?? '', ['Em análise', 'Enviada'])));
-        $msgQuery     = $_GET['msg'] ?? '';
 
         $this->render('empresa/dashboard', [
             'vagas'               => $vagas,
             'vagasAbertas'        => $vagasAbertas,
             'emAndamento'         => $emAndamento,
             'candidatosDaEmpresa' => $candidatosDaEmpresa,
-            'msgQuery'            => $msgQuery,
         ]);
     }
 
     public function vagas(array $p = []): void {
         $this->requireEmpresaAprovada();
-        $vagas    = (new Vaga())->listarVagasEmpresa((int)($this->usuario()['id'] ?? 0));
-        $msgQuery = $_GET['msg'] ?? '';
-        $this->render('empresa/vagas', ['vagas' => $vagas, 'msgQuery' => $msgQuery]);
+        $vagas = (new Vaga())->listarVagasEmpresa((int)($this->usuario()['id'] ?? 0));
+        $this->render('empresa/vagas', ['vagas' => $vagas]);
     }
 
     public function vagaForm(array $p = []): void {
@@ -70,8 +67,8 @@ class EmpresaController extends Controller {
                 : $vagaObj->criarVaga($_POST);
 
             if ($resposta['success']) {
-                $msg = $idPost > 0 ? 'Vaga atualizada com sucesso!' : 'Vaga criada com sucesso!';
-                $this->redirect('/empresa/vagas?msg=' . urlencode($msg));
+                $this->flash($idPost > 0 ? 'Vaga atualizada com sucesso!' : 'Vaga criada com sucesso!');
+                $this->redirect('/empresa/vagas');
             }
 
             if (($resposta['httpStatus'] ?? 0) === 0) { $this->redirect('/empresa/vagas'); }
@@ -107,7 +104,8 @@ class EmpresaController extends Controller {
             $resposta = (new Vaga())->excluirVaga($id);
 
             if ($resposta['success'] || ($resposta['httpStatus'] ?? 0) === 204) {
-                $this->redirect('/empresa/vagas?msg=' . urlencode('Vaga excluída com sucesso.'));
+                $this->flash('Vaga excluída com sucesso.');
+                $this->redirect('/empresa/vagas');
             }
             $erro = $resposta['message'] ?? 'Não foi possível excluir a vaga.';
         }
@@ -119,7 +117,6 @@ class EmpresaController extends Controller {
         $this->requireEmpresaAprovada();
         $empresaId    = (int)($this->usuario()['id'] ?? 0);
         $vagaIdFiltro = isset($_GET['vaga_id']) ? (int)$_GET['vaga_id'] : null;
-        $mensagem     = $_GET['msg'] ?? '';
 
         $vagasDaEmpresa   = (new Vaga())->listarVagasEmpresa($empresaId);
         $vagaIdsDaEmpresa = array_map('intval', array_column($vagasDaEmpresa, 'id'));
@@ -132,7 +129,6 @@ class EmpresaController extends Controller {
         $this->render('empresa/candidatos', [
             'candidatos'   => $candidatos,
             'vagaIdFiltro' => $vagaIdFiltro,
-            'mensagem'     => $mensagem,
         ]);
     }
 
@@ -148,7 +144,8 @@ class EmpresaController extends Controller {
         $curriculo = (new Candidatura())->buscarCurriculo($id);
 
         if (!$curriculo) {
-            $this->redirect('/empresa/candidatos?msg=' . urlencode('Não foi possível carregar o currículo deste candidato.'));
+            $this->flash('Não foi possível carregar o currículo deste candidato.', 'error');
+            $this->redirect('/empresa/candidatos');
         }
 
         $this->render('empresa/curriculo_candidato', ['curriculo' => $curriculo]);
@@ -177,7 +174,8 @@ class EmpresaController extends Controller {
                 $resposta = $candObj->atualizarStatus($idPost, $status, $observacao);
 
                 if ($resposta['success']) {
-                    $this->redirect('/empresa/candidatos?msg=' . urlencode('Status atualizado! O aluno foi notificado.'));
+                    $this->flash('Status atualizado! O aluno foi notificado.');
+                    $this->redirect('/empresa/candidatos');
                 }
                 $erro = $resposta['message'] ?? 'Não foi possível atualizar o status.';
             } else {

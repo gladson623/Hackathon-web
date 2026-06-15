@@ -15,8 +15,6 @@
             <a href="<?= url('/empresa/vagas') ?>" class="btn-outline">Voltar para vagas</a>
         </div>
 
-        <?php if ($mensagem): ?><p class="alert-success"><?= e($mensagem) ?></p><?php endif; ?>
-
         <?php if ($vagaIdFiltro): ?>
             <p class="muted">Filtrando por vaga #<?= e($vagaIdFiltro) ?> — <a href="<?= url('/empresa/candidatos') ?>">Ver todos</a></p>
         <?php endif; ?>

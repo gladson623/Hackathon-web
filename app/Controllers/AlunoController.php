@@ -33,7 +33,8 @@ class AlunoController extends Controller {
 
         // Vaga encerrada não pode ser acessada diretamente pela URL.
         if (($vaga['status'] ?? 'aberta') !== 'aberta') {
-            $this->redirect('/portal?aviso=' . urlencode('Esta vaga não está mais disponível.'));
+            $this->flash('Esta vaga não está mais disponível.', 'warning');
+            $this->redirect('/portal');
         }
 
         $this->render('aluno/vaga', ['vaga' => $vaga]);
@@ -59,7 +60,8 @@ class AlunoController extends Controller {
 
         // Vaga encerrada: não permite candidatura por nenhuma via.
         if (($vaga['status'] ?? 'aberta') !== 'aberta') {
-            $this->redirect('/portal?aviso=' . urlencode('Esta vaga não está mais disponível.'));
+            $this->flash('Esta vaga não está mais disponível.', 'warning');
+            $this->redirect('/portal');
         }
 
         // Aluno não apto: bloqueia antes de chamar a API (a API também valida com 403).
